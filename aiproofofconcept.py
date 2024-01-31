@@ -1,6 +1,19 @@
 import math
-sets = [(1,2), (3,4), (5,6), (1,7), (8,11)]
+import random 
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+newset = []
+for i in range(100):
+  newpair = []
+  newpair.append(random.randint(1,100))
+  newpair.append(random.randint(1,100))
+  newpair = tuple(newpair)
+  newset.append(newpair)
 
+print(newset)
+    
+    
 def euclidean(point1,point2):
     sum = 0
     for i in range(len(point1)):
@@ -38,6 +51,12 @@ def guess(origin, numberofpoints):
         finalset += [add(origin,(math.cos(2*math.pi*i/numberofpoints), math.sin(2*math.pi*i/numberofpoints)))]
     return finalset
 
+def multiplysets(float, set):
+  newset = []
+  for i in range(len(set)):
+    multipliedtuple = multiply(float,set[i])
+    newset.append(multipliedtuple)
+  return newset
 
 def indexedmax(array):
     maximum = -10**9
@@ -57,17 +76,42 @@ def error(point, numberofpoints, set):
     return indexedmax(differences)
 
 
+randompoint = (random.randint(1,100),random.randint(1,100))
+
 def ai(iterations,set,guesses,learningspeed):
-    comparisonpoint = (0,0)
+    comparisonpoint = randompoint
+    counter = 0
     for i in range(iterations):
         derivative = error(comparisonpoint, guesses, set)
-        if (derivative[0] <= 0):
-            print(comparisonpoint)
-            break
+        if (derivative[0] < 0):
+            counter += 1
         else:
             direction = derivative[1]
-            comparisonpoint = add(comparisonpoint, multiply((learningspeed)**i,multiply(func(comparisonpoint,set)/derivative[0],cis(derivative[1]/guesses))))
-    return comparisonpoint
+            comparisonpoint = add(comparisonpoint, multiply((learningspeed)**(i+counter),multiply(func(comparisonpoint,set)/derivative[0],cis(derivative[1]/guesses))))
+            counter = 0
+        if (i % 10 == 0):
+          xpoint = np.array(comparisonpoint[0])
+          ypoint = np.array(comparisonpoint[1])
+          plt.plot(xpoint,ypoint,'o')
+          print((comparisonpoint, func(comparisonpoint,set)))
+        else:
+          continue
+    plt.show()
+    return (comparisonpoint, func(comparisonpoint, set))
 
-print(ai(800, sets, 200, 0.96))
+ai(800, newset, 20, 0.97)
+
+def matplotlibsupport(set):
+  xcoordinates = []
+  ycoordinates = []
+  for i in range(len(set)):
+    xcoordinates.append(set[i][0])
+    ycoordinates.append(set[i][1])
+  return (xcoordinates, ycoordinates)
+
+
+xpoints = np.array(matplotlibsupport(newset)[0])
+ypoints = np.array(matplotlibsupport(newset)[1])
+plt.plot(xpoints, ypoints, 'o')
+plt.show()
                         
