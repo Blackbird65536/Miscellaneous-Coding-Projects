@@ -1,3 +1,4 @@
+#This is basically all of the tools required for mathematics. i.e vectors, and scalars, as well as complex numbers and matrices.
 import math
 def euclidean(point1,point2):
     sum = 0
