@@ -1,7 +1,7 @@
 import math
 import random
 import numpy as np
-
+#This is for the AIME qualifications math competition in order to reassure those that a test does not define them. 
 nums1 = []
 nums2 = []
 
