@@ -76,10 +76,8 @@ def error(point, numberofpoints, set):
     return indexedmax(differences)
 
 
-randompoint = (random.randint(1,100),random.randint(1,100))
-
 def ai(iterations,set,guesses,learningspeed):
-    comparisonpoint = randompoint
+    comparisonpoint = (random.randint(1,100),random.randint(1,100))
     counter = 0
     for i in range(iterations):
         derivative = error(comparisonpoint, guesses, set)
@@ -89,7 +87,7 @@ def ai(iterations,set,guesses,learningspeed):
             direction = derivative[1]
             comparisonpoint = add(comparisonpoint, multiply((learningspeed)**(i+counter),multiply(func(comparisonpoint,set)/derivative[0],cis(derivative[1]/guesses))))
             counter = 0
-        if (i % 10 == 0):
+        if (i % 20 == 0):
           xpoint = np.array(comparisonpoint[0])
           ypoint = np.array(comparisonpoint[1])
           plt.plot(xpoint,ypoint,'o')
@@ -98,6 +96,18 @@ def ai(iterations,set,guesses,learningspeed):
           continue
     plt.show()
     return (comparisonpoint, func(comparisonpoint, set))
+def ainograph(iterations,set,guesses,learningspeed):
+  comparisonpoint = (random.randint(1,100),random.randint(1,100))
+  counter = 0
+  for i in range(iterations):
+    derivative = error(comparisonpoint, guesses, set)
+    if (derivative[0] < 0):
+        counter += 1
+    else:
+        direction = derivative[1]
+        comparisonpoint = add(comparisonpoint, multiply((learningspeed)**(i+counter),multiply(func(comparisonpoint,set)/derivative[0],cis(derivative[1]/guesses))))
+        counter = 0
+  return (comparisonpoint, func(comparisonpoint, set))
 
 ai(800, newset, 20, 0.97)
 
@@ -114,4 +124,18 @@ xpoints = np.array(matplotlibsupport(newset)[0])
 ypoints = np.array(matplotlibsupport(newset)[1])
 plt.plot(xpoints, ypoints, 'o')
 plt.show()
+                  
+#some more numerical inconsistency
+
+def inconsistency(iterations, set, guesses, alpha, approximation):
+  counter = 0
+  for i in range(approximation):
+    randompoint = (random.randint(1,100),random.randint(1,100))
+    if (ainograph(iterations, set, guesses, alpha)[1] > func(randompoint, set)):
+      continue
+    else:
+      counter += 1
+  return counter/approximation
+  
+print(inconsistency(800,newset, 20, 0.97, 50))
                         
