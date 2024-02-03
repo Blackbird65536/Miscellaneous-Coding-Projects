@@ -1,4 +1,4 @@
-#So it turns out I did not do gradient descent.
+#I forgot to actually do gradient descent, but oh well.
 
 import math
 import random 
@@ -6,14 +6,16 @@ newset = []
 #The main idea of this is to try and find the least Euclidean distance to each of the points. This can be generalized to n entries, although I
 #Blackbird, am too lazy.
 #This generates a random set of a hundred ordered pairs.
-for i in range(10000):
-  newpair = []
-  newpair.append(random.randint(1,10**6))
-  newpair.append(random.randint(1,10**6))
-  newpair = tuple(newpair)
-  newset.append(newpair)
+def newntuple(length, number):
+    tupleset = []
+    for i in range(number):
+        newtuple = []
+        for i in range(length):
+            newtuple.append(random.randint(1,10**6))
+        tupleset.append(newtuple)
+    return tupleset
 
-testset = [(1,2), (3,4), (5,6)]
+newset = newntuple(10,1000)
 #This generates the euclidean distance between two points. (i.e regular pythagorean theorem.)
 def euclidean(point1,point2):
     sum = 0
@@ -90,11 +92,8 @@ def magnitude(vector):
 
 print(normalized((3,4)))
     
-
-print(gradient((0,0),testset, 1/100))
-
 def main(iterations,set,approximation, learningspeed):
-    comparisonpoint = (50,50)
+    comparisonpoint = zerovector(len(set[0]))
     for i in range(iterations):
         derivative = gradient(comparisonpoint, set, approximation)
         if (i % 20 == 0):
