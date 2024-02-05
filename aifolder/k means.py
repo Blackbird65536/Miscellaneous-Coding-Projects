@@ -1,3 +1,5 @@
+#Unfortunately, this is just a draft...
+
 import math
 import random 
 newset = []
